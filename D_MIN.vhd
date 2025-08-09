@@ -5,6 +5,7 @@ use IEEE.NUMERIC_STD.ALL;
 entity D_MIN is
     Port(
         clk_um : in  STD_LOGIC;
+        rst    : in  STD_LOGIC;
         d_min  : out STD_LOGIC_VECTOR(3 downto 0)
     );
 end D_MIN;
@@ -14,9 +15,12 @@ architecture D_MIN_ARCH of D_MIN is
     signal conta    : unsigned(3 downto 0) := (others => '0');
     signal conta_m  : unsigned(3 downto 0) := (others => '0');
 begin
-    process(clk_um)
+    process(clk_um, rst)
     begin
-        if rising_edge(clk_um) then
+        if rst = '0' then
+            conta <= (others => '0');
+            conta_m <= (others => '0');
+        elsif rising_edge(clk_um) then
             if conta = MAX_COUNT - 1 then
                 conta <= (others => '0');
                 if conta_m = "0101" then
@@ -31,4 +35,5 @@ begin
     end process;
 
     d_min <= std_logic_vector(conta_m);
+
 end D_MIN_ARCH;

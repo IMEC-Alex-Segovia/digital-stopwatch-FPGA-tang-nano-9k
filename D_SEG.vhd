@@ -5,6 +5,7 @@ use IEEE.NUMERIC_STD.ALL;
 entity D_SEG is
     Port(
         clk_us : in  STD_LOGIC;
+        rst    : in  STD_LOGIC;
         clk_ds : out STD_LOGIC;
         d_seg  : out STD_LOGIC_VECTOR(3 downto 0)
     );
@@ -13,14 +14,18 @@ end D_SEG;
 architecture D_SEG_ARCH of D_SEG is
 
     constant MAX_COUNT : integer :=  5;
-    signal conta    : unsigned(3 downto 0) := (others => '0');
-    signal conta_s  : unsigned(3 downto 0) := (others => '0');
-    signal sal      : STD_LOGIC := '1';
+    signal conta       : unsigned(3 downto 0) := (others => '0');
+    signal conta_s     : unsigned(3 downto 0) := (others => '0');
+    signal sal         : STD_LOGIC := '1';
 
 begin
-    process(clk_us)
+    process(clk_us, rst)
     begin
-        if rising_edge(clk_us) then
+        if rst = '0' then
+            sal <= '1';
+            conta <= (others => '0');
+            conta_s <= (others => '0');
+        elsif rising_edge(clk_us) then
             if conta = MAX_COUNT - 1 then
                 conta <= (others => '0');
                 sal <= not sal;
@@ -38,4 +43,5 @@ begin
 
     clk_ds <= sal;
     d_seg <= std_logic_vector(conta_s);
+
 end D_SEG_ARCH;

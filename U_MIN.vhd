@@ -5,6 +5,7 @@ use IEEE.NUMERIC_STD.ALL;
 entity U_MIN is
     Port(
         clk_ds  : in  STD_LOGIC;
+        rst     : in  STD_LOGIC;
         clk_um  : out STD_LOGIC;
         u_min   : out STD_LOGIC_VECTOR(3 downto 0)
     );
@@ -18,9 +19,13 @@ architecture U_MIN_ARCH of U_MIN is
     signal sal      : STD_LOGIC := '1';
 
 begin
-    process(clk_ds)
+    process(clk_ds, rst)
     begin
-        if rising_edge(clk_ds) then
+        if rst = '0' then
+            sal <= '1';
+            conta <= (others => '0');
+            conta_m <= (others => '0');
+        elsif rising_edge(clk_ds) then
             if conta = MAX_COUNT - 1 then
                 conta <= (others => '0');
                 sal <= not sal;
