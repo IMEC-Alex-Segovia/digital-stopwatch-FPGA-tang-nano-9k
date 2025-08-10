@@ -10,7 +10,7 @@ entity DSP_CAT_SEL is
 end DSP_CAT_SEL;
 
 architecture DSP_CAT_SEL_ARCH of DSP_CAT_SEL is
-    constant MAX_COUNT : integer := 250000;
+    constant MAX_COUNT : integer := 168750;
     signal conta    : unsigned(17 downto 0) := (others => '0');
     signal conta_c  : unsigned(1 downto 0) := (others => '0');
 begin
@@ -25,7 +25,7 @@ begin
                 else
                     conta_c <= conta_c + 1;
                 end if;
-            else
+            else 
                 conta <= conta + 1;
             end if;
         end if;

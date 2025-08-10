@@ -5,6 +5,7 @@ entity DIG_STOPWATCH is
     Port(
         MCLK : in STD_LOGIC;
         RST  : in STD_LOGIC;
+        STP  : in STD_LOGIC;
         DSP  : out STD_LOGIC_VECTOR(7 downto 0);
         CAT  : out STD_LOGIC_VECTOR(3 downto 0)
     );
@@ -16,6 +17,7 @@ architecture DIG_STOPWATCH_ARCH of DIG_STOPWATCH is
         Port(
             clk    : in  STD_LOGIC;
             rst    : in  STD_LOGIC;
+            stp    : in  STD_LOGIC;
             clk_us : out STD_LOGIC;
             u_seg  : out STD_LOGIC_VECTOR(3 downto 0)
         );
@@ -80,7 +82,7 @@ architecture DIG_STOPWATCH_ARCH of DIG_STOPWATCH is
 
 begin
 
-    U0 : U_SEG port map(clk => MCLK, rst => RST, u_seg => u_seg_s, clk_us => clk_us);
+    U0 : U_SEG port map(clk => MCLK, rst => RST, stp => STP, u_seg => u_seg_s, clk_us => clk_us);
     U1 : D_SEG port map(clk_us => clk_us, rst => RST, d_seg => d_seg_s, clk_ds => clk_ds);
     U2 : U_MIN port map(clk_ds => clk_ds, rst => RST, u_min => u_min_s, clk_um => clk_um);
     U3 : D_MIN port map(clk_um => clk_um, rst => RST, d_min => d_min_s);
